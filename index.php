@@ -1,41 +1,76 @@
-<?php
-require_once('config.php');
-require_once('routeros_api.class.php');
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mikrotik Dashboard</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
 
-$API = new RouterosAPI();
-$API->debug = false;
+    <header>
+        <h1>
+            <span class="live-badge" title="Live Mode Ativo"></span>
+            Mikrotik Dashboard — <span id="router-name">Carregando...</span>
+        </h1>
+        <nav>
+            <a href="index.php" class="active">Visão Geral</a>
+            <a href="dhcp.php">Leases DHCP</a>
+        </nav>
+    </header>
 
-echo "<h1>Status do Mikrotikson da silva</h1>";
-echo "<p>Informações do Mikrotik conectado via API para <b>tecnotam</b>:</p>";
+    <div class="grid-cards">
+        <!-- CPU -->
+        <div class="card">
+            <h3>Uso da CPU</h3>
+            <div class="value" id="cpu-value">0%</div>
+            <small style="color: #94a3b8; font-size: 0.8rem;" id="cpu-detail">0 Cores @ -- MHz</small>
+            <div class="progress-bar">
+                <div class="progress-fill" id="cpu-bar" style="width: 0%;"></div>
+            </div>
+        </div>
 
-if ($API->connect(MK_HOST, MK_USER, MK_PASS, MK_PORT)) {
-    
-    // Busca informações de recursos do sistema
-    $systemResource = $API->comm("/system/resource/print");
-    
-    if (!empty($systemResource)) {
-        $info = $systemResource[0];
-        
-        echo "<ul style='font-family: sans-serif; line-height: 1.6;'>";
-        echo "<li><strong>Identificação / Modelo:</strong> " . ($info['board-name'] ?? 'N/A') . "</li>";
-        echo "<li><strong>Versão do RouterOS:</strong> " . ($info['version'] ?? 'N/A') . "</li>";
-        echo "<li><strong>Tempo Online (Uptime):</strong> " . ($info['uptime'] ?? 'N/A') . "</li>";
-        echo "<li><strong>Uso de CPU:</strong> " . ($info['cpu-load'] ?? 0) . "%</li>";
-        echo "<li><strong>Memória Livre:</strong> " . round(($info['free-memory'] ?? 0) / 1024 / 1024, 2) . " MB</li>";
-        echo "<li><strong>Memória Total:</strong> " . round(($info['total-memory'] ?? 0) / 1024 / 1024, 2) . " MB</li>";
-        echo "<li><strong>Armazenamento Livre:</strong> " . round(($info['free-hdd-space'] ?? 0) / 1024 / 1024, 2) . " MB</li>";
-        echo "<li><strong>Armazenamento Total:</strong> " . round(($info['total-hdd-space'] ?? 0) / 1024 / 1024, 2) . " MB</li>";
-        echo "<li><strong>Arquitetura do Sistema:</strong> " . ($info['architecture-name'] ?? 'N/A') . "</li>";
-        echo "<li><strong>Versão do Kernel:</strong> " . ($info['kernel-version'] ?? 'N/A') . "</li>";
-        echo "<li><strong>Versão do Bootloader:</strong> " . ($info['boot-loader'] ?? 'N/A') . "</li>";
-        echo "<li><strong>Versão do Firmware:</strong> " . ($info['firmware-type'] ?? 'N/A') . "</li>";
-        echo "<li><strong>Versão do RouterBOOT:</strong> " . ($info['routerboot-version'] ?? 'N/A') . "</li>";
-        echo "<li><strong>Versão do RouterOS (Long-term):</strong> " . ($info['long-term'] ?? 'N/A') . "</li>";
-        echo "<li><strong>Versão do RouterOS (Current):</strong> " . ($info['current'] ?? 'N/A') . "</li>";
-        echo "</ul>";
-    }
+        <!-- RAM -->
+        <div class="card">
+            <h3>Memória RAM</h3>
+            <div class="value" id="ram-value">0%</div>
+            <small style="color: #94a3b8; font-size: 0.8rem;" id="ram-detail">0 MB / 0 MB</small>
+            <div class="progress-bar">
+                <div class="progress-fill" id="ram-bar" style="width: 0%;"></div>
+            </div>
+        </div>
 
-    $API->disconnect();
-} else {
-    echo "<p style='color: red;'>Erro ao conectar no Mikrotik. Verifique o IP, credenciais ou se o serviço 'api' está ativo no RouterOS (IP > Services).</p>";
-}
+        <!-- Armazenamento / Flash -->
+        <div class="card">
+            <h3>Disco / Flash</h3>
+            <div class="value" id="hdd-value">0%</div>
+            <small style="color: #94a3b8; font-size: 0.8rem;" id="hdd-detail">0 MB / 0 MB</small>
+            <div class="progress-bar">
+                <div class="progress-fill" id="hdd-bar" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Interfaces -->
+        <div class="card">
+            <h3>Interfaces de Rede</h3>
+            <div class="value" id="iface-value">--</div>
+            <small style="color: #94a3b8; font-size: 0.8rem;" id="iface-detail">Ativas / Total</small>
+        </div>
+
+        <!-- Uptime -->
+        <div class="card">
+            <h3>Tempo Ligado (Uptime)</h3>
+            <div class="value" style="font-size: 1.2rem; margin-top: 8px;" id="uptime-value">--</div>
+        </div>
+
+        <!-- Versão -->
+        <div class="card">
+            <h3>Versão RouterOS</h3>
+            <div class="value" style="font-size: 1.2rem; margin-top: 8px;" id="version-value">--</div>
+            <small style="color: #94a3b8; font-size: 0.8rem;" id="board-detail">Hardware: --</small>
+        </div>
+    </div>
+
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

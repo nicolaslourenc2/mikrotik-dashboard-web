@@ -5,7 +5,7 @@ require_once('routeros_api.class.php');
 
 $API = new RouterosAPI();
 
-if ($API->connect(MK_HOST, MK_USER, MK_PASS, MK_PORT)) {
+if ($API->connect(MK_HOST, MK_USER, MK_PASS, MK_PORT)) { //variaveis de conexao ao mikrotik
     // Consulta a Tabela ARP do Mikrotik
     $arpEntries = $API->comm('/ip/arp/print');
     $API->disconnect();

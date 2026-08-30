@@ -15,7 +15,6 @@
         </h1>
         <nav>
             <a href="index.php" class="active">Visão Geral</a>
-            <a href="dhcp.php">Leases ARP</a>
         </nav>
     </header>
 

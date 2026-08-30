@@ -40,4 +40,4 @@ async function updateDashboard() {
 }
 
 updateDashboard();
-setInterval(updateDashboard, 1000);
+setInterval(updateDashboard, 3000);

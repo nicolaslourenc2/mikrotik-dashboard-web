@@ -44,11 +44,11 @@ Topologia de Rede: Monitoramento de interfaces ativas com flag running=true vers
 Metadados de Sistema: Modelo da placa (RouterBOARD/CHR), versão de firmware e uptime contínuo.
 
 ## Instalação e Configuração
-1. Requisitos do MikroTik
+1. Requisitos do MikroTik  
 Habilite o serviço de API na porta padrão (8728) e crie um usuário dedicado com privilégios apenas de leitura:
 
 
-## 2. Configuração da Aplicação
+## 2. Configuração da Aplicação  
 1. Clone este repositório no diretório do seu servidor web (Apache/Nginx com suporte a PHP 7.4+):
 
 ```

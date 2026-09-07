@@ -1,4 +1,4 @@
-# 🌐 MikroTik Live Dashboard
+# MikroTik Live Dashboard
 
 Painel web em tempo real para monitoramento de telemetria, integridade de hardware e status de interfaces de roteadores MikroTik RouterOS via API socket nativa.
 
